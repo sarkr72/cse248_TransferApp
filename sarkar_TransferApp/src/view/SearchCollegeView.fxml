@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="620.0" prefWidth="620.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="controller.SearchColleges">
+   <children>
+      <Pane fx:id="pane" layoutX="136.0" layoutY="138.0" prefHeight="620.0" prefWidth="620.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TableView fx:id="tableView" layoutX="30.0" layoutY="79.0" prefHeight="513.0" prefWidth="561.0">
+              <columns>
+                <TableColumn fx:id="idCol" prefWidth="58.0" text="CollegeId" />
+                <TableColumn fx:id="nameCol" prefWidth="130.0" text="CollegeName" />
+                  <TableColumn fx:id="zipCol" prefWidth="55.0" text="Zip" />
+                  <TableColumn fx:id="typeCol" prefWidth="81.0" text="Type" />
+                  <TableColumn fx:id="sizeCol" prefWidth="72.0" text="StudentSize" />
+                  <TableColumn fx:id="inStateCol" prefWidth="71.0" text="InStateCost" />
+                  <TableColumn fx:id="outOfStateCol" prefWidth="93.0" text="OutOfStateCost" />
+              </columns>
+               <effect>
+                  <DropShadow height="23.96" radius="15.1875" spread="0.15" width="38.79">
+                     <color>
+                        <Color red="0.5950000286102295" green="0.08500000089406967" blue="0.8500000238418579" opacity="0.8999999761581421" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </TableView>
+            <Button fx:id="searchBtn" layoutX="188.0" layoutY="43.0" mnemonicParsing="false" onAction="#search" text="Search" />
+            <TextField fx:id="searchField" layoutX="27.0" layoutY="43.0" promptText="Search" />
+            <Button layoutX="6.0" layoutY="2.0" mnemonicParsing="false" onAction="#logOUt" prefHeight="25.0" prefWidth="59.0" text="LogOut">
+               <effect>
+                  <InnerShadow height="18.03" radius="13.705" width="38.79">
+                     <color>
+                        <Color red="0.8947368264198303" green="0.15561240911483765" blue="0.057992201298475266" />
+                     </color>
+                  </InnerShadow>
+               </effect>
+            </Button>
+            <TextField fx:id="zipField" layoutX="253.0" layoutY="43.0" prefHeight="25.0" prefWidth="67.0" promptText="zip">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+            <ComboBox fx:id="typeBox" layoutX="421.0" layoutY="43.0" prefHeight="25.0" prefWidth="73.0" promptText="Type" />
+            <TextField fx:id="tuitionField" layoutX="330.0" layoutY="43.0" prefHeight="25.0" prefWidth="85.0" promptText="Tuition/year">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="sizeField" layoutX="500.0" layoutY="43.0" prefHeight="25.0" prefWidth="85.0" promptText="Student Size">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
