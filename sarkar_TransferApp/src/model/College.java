@@ -134,7 +134,8 @@ public class College implements Serializable, Uniteable{
 	public String toString() {
 		return "College [collegeId=" + collegeId + ", collegeName=" + collegeName + ", zip=" + zip + ", state=" + state
 				+ ", city=" + city + ", collegeType=" + collegeType + ", studentSize=" + studentSize + ", lat=" + lat
-				+ ", lon=" + lon + "]";
+				+ ", lon=" + lon + ", academicYearCost=" + academicYearCost + ", inStateCost=" + inStateCost
+				+ ", outOfStateCost=" + outOfStateCost + "]";
 	}
 
 }

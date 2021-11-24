@@ -40,5 +40,25 @@ public class TuitionLevel implements Uniteable, Serializable{
 		return "TuitionLevel [academicYearCost=" + academicYearCost + ", inStateCost=" + inStateCost
 				+ ", outOfStateCost=" + outOfStateCost + "]";
 	}
+	@Override
+	public String getCollegeType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getZip() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getCollegeName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int getStudentSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

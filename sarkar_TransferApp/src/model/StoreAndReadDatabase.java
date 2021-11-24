@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -22,11 +23,11 @@ import javafx.collections.ObservableList;
 public class StoreAndReadDatabase {
 
 	private int totalPages = 1;
-	public static HashMap<String, Uniteable> collegesWithZip;
-	public static HashMap<Integer, Uniteable> collegesWithTuition;
-	public static HashMap<String, Uniteable> collegesWithType;
-	public static HashMap<Integer, Uniteable> collegesWithStudentSize;
-
+//	public static HashMap<String, Uniteable> collegesWithZip;
+//	public static HashMap<Integer, Uniteable> collegesWithTuition;
+//	public static HashMap<String, Uniteable> collegesWithType;
+//	public static HashMap<Integer, Uniteable> collegesWithStudentSize;
+	public static LinkedList<Uniteable> list;
 	public void storeDataIntoDB() throws SQLException {
 
 		String collegeName = "";
@@ -136,6 +137,7 @@ public class StoreAndReadDatabase {
 	}
 
 	public void readSqlDB() throws SQLException {
+		list = new LinkedList<>();
 		try {
 			Class.forName("org.sqlite.JDBC");
 			System.out.println(Class.forName("org.sqlite.JDBC").toString());
@@ -160,10 +162,12 @@ public class StoreAndReadDatabase {
 					rs.getString("state"), rs.getString("city"), type, rs.getInt("studentSize"),
 					rs.getFloat("latitude"), rs.getFloat("longitude"), rs.getInt("academicYearCost"),
 					rs.getInt("inStateCost"), rs.getInt("outOfStateCost"));
-			collegesWithZip.put(rs.getString("zip"), college);
-			collegesWithTuition.put(rs.getInt("academicYearCost"), college);
-			collegesWithType.put(type, college);
-			collegesWithStudentSize.put(rs.getInt("studentSize"), college);
+			list.add(college);
+//			System.out.println(rs.getInt("academicYearCost"));
+//			collegesWithZip.put(rs.getString("zip"), college);
+//			collegesWithTuition.put(rs.getInt("academicYearCost"), college);
+//			collegesWithType.put(type, college);
+//			collegesWithStudentSize.put(rs.getInt("studentSize"), college);
 //			list.add(new TuitionLevel(rs.getInt("academicYearCost"),rs.getInt("inStateCost"), rs.getInt("outOfStateCost")));
 //			list.add(new Address(rs.getString("zip"), rs.getString("state"), rs.getString("city")));
 		}

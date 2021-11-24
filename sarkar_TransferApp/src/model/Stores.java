@@ -23,8 +23,8 @@ public class Stores {
 	}
 
 	public void backUp() throws ClassNotFoundException, IOException {
-		if (new File("/data/users/Accounts.dat").exists()) {
-			FileInputStream fis = new FileInputStream("/data/users/Accounts.dat");
+		if (new File("data/users/Accounts.dat").exists()) {
+			FileInputStream fis = new FileInputStream("data/users/Accounts.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			accounts =  (TreeMap<String, User>) (ois.readObject());
 			ois.close();

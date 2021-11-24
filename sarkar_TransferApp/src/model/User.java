@@ -9,19 +9,19 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String userName;
 	private String passWord;
-	private int zip;
+	private String zip;
 
-	public User(String userName, String passWord, int zip) {
+	public User(String userName, String passWord, String zip) {
 		this.userName = userName;
 		this.passWord = passWord;
 		this.zip = zip;
 	}
 
-	public int getType() {
+	public String getType() {
 		return zip;
 	}
 
-	public void setType(int zip) {
+	public void setType(String zip) {
 		this.zip = zip;
 	}
 

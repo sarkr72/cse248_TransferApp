@@ -48,16 +48,20 @@ public class LogInController implements Initializable {
 	void signIn(ActionEvent event) throws IOException {
 		userName = userNameField.getText().toLowerCase();
 		passWord = passWordField.getText();
-		if (Stores.getAccounts().containsKey(userName)) {
-			if (Stores.getAccounts().get(userName).getPassWord().compareTo(passWord) == 0) {
-				changeScene(event, "/view/SearchCollegeView.fxml");
+//		if (Stores.getAccounts() == null) {
+//			userNameLabel.setText("user doesnt exist");
+//		} else {
+			if (Stores.getAccounts().containsKey(userName)) {
+				if (Stores.getAccounts().get(userName).getPassWord().compareTo(passWord) == 0) {
+					changeScene(event, "/view/SearchCollegeView.fxml");
+				} else {
+					passwordLabel.setText("Password is incorrect");
+					userNameLabel.setText("");
+				}
 			} else {
-				passwordLabel.setText("Password is incorrect");
-				userNameLabel.setText("");
-			}
-		} else {
-			userNameLabel.setText("Username isn't recoznized");
-			passwordLabel.setText("");
+				userNameLabel.setText("Username isn't recognized");
+				passwordLabel.setText("");
+//			}
 		}
 	}
 
