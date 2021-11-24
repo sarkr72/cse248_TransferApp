@@ -5,8 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -29,7 +31,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.StoreAndReadDatabase;
 import model.Stores;
-import model.TuitionLevel;
 import model.Uniteable;
 
 public class SearchColleges implements Initializable {
@@ -41,6 +42,7 @@ public class SearchColleges implements Initializable {
 	private int outOfStateCost;
 	private String collegeType;
 	private int academicYearCost = 0;
+	private int tuition = 0;
 	private int size = 0;
 	private ObservableList<Uniteable> list = FXCollections.observableArrayList();
 	private ObservableList<Uniteable> list2 = FXCollections.observableArrayList();
@@ -108,6 +110,7 @@ public class SearchColleges implements Initializable {
 
 	@FXML
 	void search(ActionEvent event) {
+		List<Uniteable> filtered = new LinkedList<>();
 		idCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("collegeId"));
 		nameCol.setCellValueFactory(new PropertyValueFactory<Uniteable, String>("collegeName"));
 		typeCol.setCellValueFactory(new PropertyValueFactory<Uniteable, String>("collegeType"));
@@ -115,16 +118,16 @@ public class SearchColleges implements Initializable {
 		inStateCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("inStateCost"));
 		outOfStateCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("outOfStateCost"));
 		sizeCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("studentSize"));
-
+		tuition = 0;
+		size = 0;
 		collegeType = typeBox.getValue();
 		zip = zipField.getText();
-		if(!tuitionField.getText().isEmpty()) { 
-		academicYearCost = Integer.parseInt(tuitionField.getText());
-		System.out.println("j");
+		if (!tuitionField.getText().isEmpty()) {
+			tuition = Integer.parseInt(tuitionField.getText());
 		}
-		if(!sizeField.getText().isEmpty()) {
-		size = Integer.parseInt(sizeField.getText());
-		System.out.println("u");
+		if (!sizeField.getText().isEmpty()) {
+			size = Integer.parseInt(sizeField.getText());
+			System.out.println("u");
 		}
 //		for (Entry<String, Uniteable> entry : StoreAndReadDatabase.collegesWithStudentSize.entrySet()) {
 //		    for (String s : entry.getValue()) {
@@ -133,40 +136,56 @@ public class SearchColleges implements Initializable {
 //		            break;
 //		        }
 //		    }
-		if (collegeType == null && size == 0 && academicYearCost != 0) {
+		if (collegeType == null && size == 0 && tuition != 0) {
 			System.out.println("4");
-			List<Uniteable> filtered = StoreAndReadDatabase.list.stream()
-					.filter(i -> i.getInStateCost() <= academicYearCost && i.getOutOfStateCost() <= academicYearCost)
+			filtered = StoreAndReadDatabase.list.stream()
+					.filter(i -> i.getInStateCost() <= tuition && i.getOutOfStateCost() <= tuition)
 					.collect(Collectors.toList());
-			 list = FXCollections.observableArrayList(filtered);
-//			tableView.setItems(list);
-		} else if (collegeType != null && size == 0 && academicYearCost == 0) {
+		} else if (collegeType == null && size != 0 && tuition != 0) {
 			System.out.println("3");
-			List<Uniteable> filtered = StoreAndReadDatabase.list.stream()
-					.filter(i -> i.getCollegeType().compareTo(collegeType) == 0).collect(Collectors.toList());
-			 list = FXCollections.observableArrayList(filtered);
-//			tableView.setItems(list);
-		} else if (collegeType == null && size != 0 && academicYearCost == 0) {
+			filtered = StoreAndReadDatabase.list.stream().filter(i -> i.getStudentSize() <= size
+					&& i.getInStateCost() <= tuition && i.getOutOfStateCost() <= tuition).collect(Collectors.toList());
+		} else if (collegeType != null && size != 0 && tuition != 0) {
+			System.out.println("3");
+			filtered = StoreAndReadDatabase.list.stream()
+					.filter(i -> i.getInStateCost() <= tuition && i.getOutOfStateCost() <= tuition
+							&& i.getCollegeType().compareTo(collegeType) == 0 && i.getStudentSize() <= size)
+					.collect(Collectors.toList());
+		} else if (collegeType == null && size != 0 && tuition != 0) {
+			System.out.println("3");
+			filtered = StoreAndReadDatabase.list.stream().filter(i -> i.getInStateCost() <= tuition
+					&& i.getOutOfStateCost() <= tuition && i.getStudentSize() <= size).collect(Collectors.toList());
+		} else if (collegeType != null && size == 0 && tuition != 0) {
 			System.out.println("2");
-			List<Uniteable> filtered = StoreAndReadDatabase.list.stream().filter(i -> i.getStudentSize() <= size)
+			filtered = StoreAndReadDatabase.list
+					.stream().filter(i -> i.getCollegeType().compareTo(collegeType) == 0
+							&& i.getInStateCost() <= tuition && i.getOutOfStateCost() <= tuition)
 					.collect(Collectors.toList());
-			 list = FXCollections.observableArrayList(filtered);
-//			tableView.setItems(list);
-		} else if (collegeType == null && size == 0 && academicYearCost == 0) {
+		} else if (collegeType != null && size != 0 && tuition == 0) {
 			System.out.println("32");
-			List<Uniteable> filtered = StoreAndReadDatabase.list.stream().filter(i -> i.getZip().compareTo(zip) == 0)
+			filtered = StoreAndReadDatabase.list.stream()
+					.filter(i -> i.getCollegeType().compareTo(collegeType) == 0 && i.getStudentSize() <= size)
 					.collect(Collectors.toList());
-			list = FXCollections.observableArrayList(filtered);
-//			tableView.setItems(list);
-		} else if(collegeType != null && size != 0 && academicYearCost != 0) {
+		} else if (collegeType != null && size == 0 && tuition == 0) {
+			System.out.println("32");
+			filtered = StoreAndReadDatabase.list.stream().filter(i -> i.getCollegeType().compareTo(collegeType) == 0)
+					.collect(Collectors.toList());
+		} else if (collegeType == null && size != 0 && tuition == 0) {
+			System.out.println("32");
+			filtered = StoreAndReadDatabase.list.stream().filter(i -> i.getStudentSize() <= size)
+					.collect(Collectors.toList());
+		} else if (collegeType == null && size == 0 && tuition == 0) {
 			System.out.println("1");
-			List<Uniteable> filtered = StoreAndReadDatabase.list.stream().filter(i -> i.getInStateCost() <= academicYearCost && i.getOutOfStateCost() <= academicYearCost &&  i.getCollegeType().compareTo(collegeType) == 0 && i.getStudentSize() <= size)
-					.collect(Collectors.toList());
-		    list = FXCollections.observableArrayList(filtered);
-//			tableView.setItems(list);
+			list = FXCollections.observableArrayList(StoreAndReadDatabase.list);
 		}
+//		List<Uniteable>filtered2 = filtered.stream()
+//                .filter(i -> i.getInStateCost() < () )
+//                .collect(Collectors.toList());
+//		 List<Uniteable> sorted = filtered.stream().sorted().collect(Collectors.toList());
+//		Collections.reverse(sorted);
+		list = FXCollections.observableArrayList(filtered);
 		tableView.setItems(list);
-		System.out.println("type" + collegeType +" zip " + zip + " size" + size + " academicYearCost " +academicYearCost );
+		System.out.println("type" + collegeType + " zip " + zip + " size" + size + " academicYearCost " + tuition);
 	}
 
 	public void changeScene(ActionEvent event, String str) throws IOException {
@@ -194,7 +213,7 @@ public class SearchColleges implements Initializable {
 		outOfStateCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("outOfStateCost"));
 		sizeCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("studentSize"));
 		list2 = FXCollections.observableArrayList(StoreAndReadDatabase.list);
-		 tableView.setItems(list2);
+		tableView.setItems(list2);
 //		System.out.println(StoreAndReadDatabase.list);
 //		for(int i = 0; i < 2040; i++) {
 //			System.out.println(i + " " + StoreAndReadDatabase.list.get(i));

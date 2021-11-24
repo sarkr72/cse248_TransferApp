@@ -28,6 +28,7 @@ public class StoreAndReadDatabase {
 //	public static HashMap<String, Uniteable> collegesWithType;
 //	public static HashMap<Integer, Uniteable> collegesWithStudentSize;
 	public static LinkedList<Uniteable> list;
+
 	public void storeDataIntoDB() throws SQLException {
 
 		String collegeName = "";
@@ -95,14 +96,10 @@ public class StoreAndReadDatabase {
 					academicYearCost = jsonNameNode.get("latest.cost.attendance.academic_year").asInt();
 					inStateCost = jsonNameNode.get("latest.cost.tuition.in_state").asInt();
 					outOfStateCost = jsonNameNode.get("latest.cost.tuition.out_of_state").asInt();
-//				statement.executeUpdate("create table location (FirstName VARCHAR(50), LastName VARCHAR(50))");
-//				statement.executeUpdate(
-//						"insert into colleges(id, schoolName, zip, collegeType, studentSize, state, latitude, longitude) Values ("
-//								+ collegeId + ", '" + collegeName + "', '" + zip + "', " + type + ", " + size + ", '"
-//								+ state + "', " + lat + ", " + lon + ")");
+
 					PreparedStatement prst = conn2.prepareStatement(
-							"INSERT INTO colleges(id, schoolName, zip, collegeType, studentSize, state, city, latitude, longitude, academicYearCost, inStateCost, outOfStateCost) "
-									+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+							"INSERT INTO colleges(id, schoolName, zip, collegeType, studentSize, state, city, latitude, longitude, inStateCost, outOfStateCost) "
+									+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					prst.setInt(1, collegeId);
 					prst.setString(2, collegeName);
 //				prst.setObject(3, type);
@@ -113,13 +110,9 @@ public class StoreAndReadDatabase {
 					prst.setString(7, city);
 					prst.setFloat(8, lat);
 					prst.setFloat(9, lon);
-					prst.setInt(10, academicYearCost);
-					prst.setInt(11, inStateCost);
-					prst.setInt(12, outOfStateCost);
+					prst.setInt(10, inStateCost);
+					prst.setInt(11, outOfStateCost);
 					prst.execute();
-//				System.out.println(nameNode.asText());
-//				JsonNode schoolIDNode = jsonNameNode.get("id");
-//				System.out.println(schoolIDNode.asText());
 				}
 
 //			ResultSet rs = statement.executeQuery(
@@ -147,7 +140,7 @@ public class StoreAndReadDatabase {
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:data/db/colleges.sqlite");
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery(
-				"Select id, schoolName, zip, collegeType, studentSize, state, city, latitude, longitude, academicYearCost, inStateCost, outOfStateCost FROM colleges");
+				"Select id, schoolName, zip, collegeType, studentSize, state, city, latitude, longitude, inStateCost, outOfStateCost FROM colleges");
 		while (rs.next()) {
 			int collegeType = rs.getInt("collegeType");
 			String type = "";
@@ -160,10 +153,10 @@ public class StoreAndReadDatabase {
 			}
 			Uniteable college = new College(rs.getInt("id"), rs.getString("schoolName"), rs.getString("zip"),
 					rs.getString("state"), rs.getString("city"), type, rs.getInt("studentSize"),
-					rs.getFloat("latitude"), rs.getFloat("longitude"), rs.getInt("academicYearCost"),
-					rs.getInt("inStateCost"), rs.getInt("outOfStateCost"));
+					rs.getFloat("latitude"), rs.getFloat("longitude"), rs.getInt("inStateCost"),
+					rs.getInt("outOfStateCost"));
 			list.add(college);
-//			System.out.println(rs.getInt("academicYearCost"));
+//			System.out.println(college);
 //			collegesWithZip.put(rs.getString("zip"), college);
 //			collegesWithTuition.put(rs.getInt("academicYearCost"), college);
 //			collegesWithType.put(type, college);

@@ -17,12 +17,11 @@ public class College implements Serializable, Uniteable{
 	private int studentSize;
 	private float lat;
 	private float lon;
-	private int academicYearCost;
 	private int inStateCost;
 	private int outOfStateCost;
 
 	public College(int collegeId, String collegeName, String zip, String state, String city, String collegeType,
-			int studentSize, float lat, float lon, int academicYearCost, int inStateCost, int outOfStateCost) {
+			int studentSize, float lat, float lon, int inStateCost, int outOfStateCost) {
 		super();
 		this.collegeId = collegeId;
 		this.collegeName = collegeName;
@@ -33,17 +32,8 @@ public class College implements Serializable, Uniteable{
 		this.studentSize = studentSize;
 		this.lat = lat;
 		this.lon = lon;
-		this.academicYearCost = academicYearCost;
 		this.inStateCost = inStateCost;
 		this.outOfStateCost = outOfStateCost;
-	}
-
-	public int getAcademicYearCost() {
-		return academicYearCost;
-	}
-
-	public void setAcademicYearCost(int academicYearCost) {
-		this.academicYearCost = academicYearCost;
 	}
 
 	public int getInStateCost() {
@@ -134,7 +124,7 @@ public class College implements Serializable, Uniteable{
 	public String toString() {
 		return "College [collegeId=" + collegeId + ", collegeName=" + collegeName + ", zip=" + zip + ", state=" + state
 				+ ", city=" + city + ", collegeType=" + collegeType + ", studentSize=" + studentSize + ", lat=" + lat
-				+ ", lon=" + lon + ", academicYearCost=" + academicYearCost + ", inStateCost=" + inStateCost
+				+ ", lon=" + lon +  ", inStateCost=" + inStateCost
 				+ ", outOfStateCost=" + outOfStateCost + "]";
 	}
 

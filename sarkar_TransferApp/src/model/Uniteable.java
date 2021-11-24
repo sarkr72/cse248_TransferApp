@@ -2,7 +2,6 @@ package model;
 
 public interface Uniteable {
 
-	int getAcademicYearCost();
 	String getCollegeType();
 	String getZip();
 	String getCollegeName();

@@ -40,11 +40,7 @@ public class Address implements Serializable, Uniteable {
 	public String toString() {
 		return "Address [zip=" + zip + ", state=" + state + ", city=" + city+"]";
 	}
-	@Override
-	public int getAcademicYearCost() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 	@Override
 	public String getCollegeType() {
 		// TODO Auto-generated method stub
