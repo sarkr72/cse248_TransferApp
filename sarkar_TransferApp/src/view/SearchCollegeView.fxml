@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -12,18 +13,17 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="620.0" prefWidth="620.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="controller.SearchColleges">
+<AnchorPane prefHeight="620.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchColleges">
    <children>
-      <Pane fx:id="pane" layoutX="136.0" layoutY="138.0" prefHeight="620.0" prefWidth="620.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="pane" layoutX="136.0" layoutY="138.0" prefHeight="700.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TableView fx:id="tableView" layoutX="30.0" layoutY="79.0" prefHeight="513.0" prefWidth="561.0">
+            <TableView fx:id="tableView" layoutX="12.0" layoutY="79.0" prefHeight="513.0" prefWidth="600.0">
               <columns>
                 <TableColumn fx:id="idCol" prefWidth="58.0" text="CollegeId" />
-                <TableColumn fx:id="nameCol" prefWidth="130.0" text="CollegeName" />
-                  <TableColumn fx:id="zipCol" prefWidth="55.0" text="Zip" />
-                  <TableColumn fx:id="typeCol" prefWidth="81.0" text="Type" />
-                  <TableColumn fx:id="sizeCol" prefWidth="72.0" text="StudentSize" />
+                <TableColumn fx:id="nameCol" prefWidth="146.0" text="CollegeName" />
+                  <TableColumn fx:id="zipCol" prefWidth="61.0" text="Zip" />
+                  <TableColumn fx:id="typeCol" prefWidth="96.0" text="Type" />
+                  <TableColumn fx:id="sizeCol" prefWidth="74.0" text="StudentSize" />
                   <TableColumn fx:id="inStateCol" prefWidth="71.0" text="InStateCost" />
                   <TableColumn fx:id="outOfStateCol" prefWidth="93.0" text="OutOfStateCost" />
               </columns>
@@ -35,8 +35,17 @@
                   </DropShadow>
                </effect>
             </TableView>
-            <Button fx:id="searchBtn" layoutX="188.0" layoutY="43.0" mnemonicParsing="false" onAction="#search" text="Search" />
-            <TextField fx:id="searchField" layoutX="27.0" layoutY="43.0" promptText="Search" />
+            <Button fx:id="searchBtn" layoutX="115.0" layoutY="43.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="67.0" text="Search" textFill="#070912">
+               <effect>
+                  <InnerShadow choke="0.35">
+                     <color>
+                        <Color red="0.2994062006473541" green="0.6800000071525574" blue="0.1088000014424324" />
+                     </color>
+                  </InnerShadow>
+               </effect>
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font></Button>
             <Button layoutX="6.0" layoutY="2.0" mnemonicParsing="false" onAction="#logOUt" prefHeight="25.0" prefWidth="59.0" text="LogOut">
                <effect>
                   <InnerShadow height="18.03" radius="13.705" width="38.79">
@@ -46,22 +55,39 @@
                   </InnerShadow>
                </effect>
             </Button>
-            <TextField fx:id="zipField" layoutX="253.0" layoutY="43.0" prefHeight="25.0" prefWidth="67.0" promptText="zip">
+            <TextField fx:id="zipField" layoutX="254.0" layoutY="43.0" prefHeight="25.0" prefWidth="67.0" promptText="zip">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </TextField>
-            <ComboBox fx:id="typeBox" layoutX="421.0" layoutY="43.0" prefHeight="25.0" prefWidth="73.0" promptText="Type" />
-            <TextField fx:id="tuitionField" layoutX="330.0" layoutY="43.0" prefHeight="25.0" prefWidth="85.0" promptText="Tuition/year">
+            <ComboBox fx:id="typeBox" layoutX="419.0" layoutY="43.0" prefHeight="25.0" prefWidth="91.0" promptText="Type" />
+            <TextField fx:id="tuitionField" layoutX="327.0" layoutY="43.0" prefHeight="25.0" prefWidth="85.0" promptText="Tuition/year">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </TextField>
-            <TextField fx:id="sizeField" layoutX="500.0" layoutY="43.0" prefHeight="25.0" prefWidth="85.0" promptText="Student Size">
+            <TextField fx:id="sizeField" layoutX="519.0" layoutY="43.0" prefHeight="25.0" prefWidth="85.0" promptText="Student Size">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </TextField>
+            <Button layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#addFavorite" text="Add Favorite">
+               <effect>
+                  <InnerShadow radius="18.895" width="56.58">
+                     <color>
+                        <Color red="0.24908626079559326" green="0.7631579041481018" blue="0.07772904634475708" />
+                     </color>
+                  </InnerShadow>
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Label layoutX="202.0" layoutY="47.0" text="Sort By: " textFill="#2f049a">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

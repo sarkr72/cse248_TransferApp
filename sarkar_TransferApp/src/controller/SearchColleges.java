@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -29,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.College;
 import model.StoreAndReadDatabase;
 import model.Stores;
 import model.Uniteable;
@@ -44,6 +48,12 @@ public class SearchColleges implements Initializable {
 	private int academicYearCost = 0;
 	private int tuition = 0;
 	private int size = 0;
+	private int collegeId;
+	private String city;
+	private String state;
+	private int type;
+	private float lat;
+	private float lon;
 	private ObservableList<Uniteable> list = FXCollections.observableArrayList();
 	private ObservableList<Uniteable> list2 = FXCollections.observableArrayList();
 	@FXML
@@ -99,12 +109,12 @@ public class SearchColleges implements Initializable {
 
 	@FXML
 	void logOUt(ActionEvent event) throws IOException {
-		File file = new File("data/users/Accounts.dat");
-		FileOutputStream fos = new FileOutputStream(file);
-		ObjectOutputStream dos = new ObjectOutputStream(fos);
-		dos.writeObject(Stores.getAccounts());
-		dos.close();
-		fos.close();
+//		File file = new File("data/users/Accounts.dat");
+//		FileOutputStream fos = new FileOutputStream(file);
+//		ObjectOutputStream dos = new ObjectOutputStream(fos);
+//		dos.writeObject(Stores.getAccounts());
+//		dos.close();
+//		fos.close();
 		changeScene(event, "/view/LogInView.fxml");
 	}
 
@@ -127,7 +137,6 @@ public class SearchColleges implements Initializable {
 		}
 		if (!sizeField.getText().isEmpty()) {
 			size = Integer.parseInt(sizeField.getText());
-			System.out.println("u");
 		}
 //		for (Entry<String, Uniteable> entry : StoreAndReadDatabase.collegesWithStudentSize.entrySet()) {
 //		    for (String s : entry.getValue()) {
@@ -186,6 +195,43 @@ public class SearchColleges implements Initializable {
 		list = FXCollections.observableArrayList(filtered);
 		tableView.setItems(list);
 		System.out.println("type" + collegeType + " zip " + zip + " size" + size + " academicYearCost " + tuition);
+	}
+
+	@FXML
+	void addFavorite(ActionEvent event) {
+		ObservableList<Uniteable> colleges = tableView.getSelectionModel().getSelectedItems();
+		idCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("collegeId"));
+		nameCol.setCellValueFactory(new PropertyValueFactory<Uniteable, String>("collegeName"));
+		typeCol.setCellValueFactory(new PropertyValueFactory<Uniteable, String>("collegeType"));
+		zipCol.setCellValueFactory(new PropertyValueFactory<Uniteable, String>("zip"));
+		inStateCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("inStateCost"));
+		outOfStateCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("outOfStateCost"));
+		sizeCol.setCellValueFactory(new PropertyValueFactory<Uniteable, Integer>("studentSize"));
+		tableView.setItems(colleges);
+		try {
+			Class.forName("org.sqlite.JDBC");
+			String url = "jdbc:sqlite:data/db/users.sqlite";
+			Connection conn = DriverManager.getConnection(url);
+
+			PreparedStatement prst = conn.prepareStatement(
+					"INSERT INTO colleges(id, schoolName, zip, collegeType, studentSize, state, city, latitude, longitude, inStateCost, outOfStateCost) "
+							+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			prst.setInt(1, collegeId);
+			prst.setString(2, collegeName);
+//	prst.setObject(3, type);
+			prst.setString(3, zip);
+			prst.setInt(4, type);
+			prst.setInt(5, size);
+			prst.setString(6, state);
+			prst.setString(7, city);
+			prst.setFloat(8, lat);
+			prst.setFloat(9, lon);
+			prst.setInt(10, inStateCost);
+			prst.setInt(11, outOfStateCost);
+			prst.execute();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	public void changeScene(ActionEvent event, String str) throws IOException {

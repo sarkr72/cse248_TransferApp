@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
@@ -29,7 +32,7 @@ public class SignUpController implements Initializable {
 
 	private String userName;
 	private String passWord;
-	private String type;
+	private String zip = null;
 	private TreeMap<String, User> accounts = Stores.getAccounts();
 	@FXML
 	private Pane pane;
@@ -53,13 +56,7 @@ public class SignUpController implements Initializable {
 
 	@FXML
 	void backToLogIn(ActionEvent event) throws IOException {
-		File file = new File("/data/users/Accounts.dat");
-		FileOutputStream fos = new FileOutputStream(file);
-		ObjectOutputStream dos = new ObjectOutputStream(fos);
-		dos.writeObject(accounts);
-		dos.close();
-		fos.close();
-		changeScene(event,  "/view/LogInView.fxml");
+		changeScene(event, "/view/LogInView.fxml");
 	}
 
 	@FXML
@@ -83,9 +80,21 @@ public class SignUpController implements Initializable {
 			} else if (!passWord.matches(".*\\d.*")) {
 				passwordLabel.setText("Enter at least one digit");
 			} else {
-				type = "user";
-				User user = new User(userName, passWord, type);
+				User user = new User(userName, passWord, zip);
 				Stores.getAccounts().put(userName, user);
+				try {
+					Class.forName("org.sqlite.JDBC");
+					String url = "jdbc:sqlite:data/db/users.sqlite";
+					Connection conn = DriverManager.getConnection(url);
+//				Statement statement = conn.createStatement();
+					PreparedStatement prst = conn
+							.prepareStatement("INSERT INTO users(userName, password) " + "VALUES(?, ?)");
+					prst.setString(1, userName);
+					prst.setString(2, passWord);
+					prst.execute();
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 				changeScene(event, "/view/LogInView.fxml");
 			}
 		}
