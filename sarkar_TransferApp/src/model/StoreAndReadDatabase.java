@@ -23,10 +23,6 @@ import javafx.collections.ObservableList;
 public class StoreAndReadDatabase {
 
 	private int totalPages = 1;
-//	public static HashMap<String, Uniteable> collegesWithZip;
-//	public static HashMap<Integer, Uniteable> collegesWithTuition;
-//	public static HashMap<String, Uniteable> collegesWithType;
-//	public static HashMap<Integer, Uniteable> collegesWithStudentSize;
 	public static LinkedList<Uniteable> list;
 
 	public void storeDataIntoDB() throws SQLException {
@@ -44,6 +40,7 @@ public class StoreAndReadDatabase {
 		int inStateCost = 0;
 		int outOfStateCost = 0;
 		int pageNumber = 0;
+//		int count = 0;
 
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -57,7 +54,7 @@ public class StoreAndReadDatabase {
 			String inline = "";
 			try {
 				URL url = new URL(
-						"https://api.data.gov/ed/collegescorecard/v1/schools.json?school.degrees_awarded.predominant=3&_fields=id,school.ownership,school.name,school.city,latest.cost.tuition.out_of_state,latest.cost.tuition.in_state,latest.cost.attendance.academic_year,school.state,school.zip,location.lat,location.lon,2019.student.size&api_key=mh9CnyR4TxPZt5pOSPxEtJnwUwFBUNHNxmNcv2tJ&per_page=100&page="
+						"https://api.data.gov/ed/collegescorecard/v1/schools.json?school.degrees_awarded.predominant=3&_fields=id,latest.academics.program.bachelors.computer,school.ownership,school.name,school.city,latest.cost.tuition.out_of_state,latest.cost.tuition.in_state,latest.cost.attendance.academic_year,school.state,school.zip,location.lat,location.lon,2019.student.size&api_key=mh9CnyR4TxPZt5pOSPxEtJnwUwFBUNHNxmNcv2tJ&per_page=100&page="
 								+ pageNumber);
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
@@ -81,38 +78,44 @@ public class StoreAndReadDatabase {
 				JsonNode node = objectMapper.readValue(inline, JsonNode.class);
 				getTotalPages(node);
 				JsonNode array = node.get("results");
+				
 				for (int i = 0; i < array.size(); i++) {
 					JsonNode jsonNameNode = array.get(i);
-//				System.out.println("-----");
-					collegeName = jsonNameNode.get("school.name").asText();
-					collegeId = jsonNameNode.get("id").asInt();
-					zip = jsonNameNode.get("school.zip").asText();
-					city = jsonNameNode.get("school.city").asText();
-					state = jsonNameNode.get("school.state").asText();
-					type = jsonNameNode.get("school.ownership").asInt();
-					size = jsonNameNode.get("2019.student.size").asInt();
-					lat = jsonNameNode.get("location.lat").floatValue();
-					lon = jsonNameNode.get("location.lon").floatValue();
-					academicYearCost = jsonNameNode.get("latest.cost.attendance.academic_year").asInt();
-					inStateCost = jsonNameNode.get("latest.cost.tuition.in_state").asInt();
-					outOfStateCost = jsonNameNode.get("latest.cost.tuition.out_of_state").asInt();
+					JsonNode computerScience = jsonNameNode.get("latest.academics.program.bachelors.computer");
+					
+					if (computerScience.asInt() > 0) {
+						collegeName = jsonNameNode.get("school.name").asText();
+						collegeId = jsonNameNode.get("id").asInt();
+						zip = jsonNameNode.get("school.zip").asText();
+						city = jsonNameNode.get("school.city").asText();
+						state = jsonNameNode.get("school.state").asText();
+						type = jsonNameNode.get("school.ownership").asInt();
+						size = jsonNameNode.get("2019.student.size").asInt();
+						lat = jsonNameNode.get("location.lat").floatValue();
+						lon = jsonNameNode.get("location.lon").floatValue();
+//						academicYearCost = jsonNameNode.get("latest.cost.attendance.academic_year").asInt();
+						inStateCost = jsonNameNode.get("latest.cost.tuition.in_state").asInt();
+						outOfStateCost = jsonNameNode.get("latest.cost.tuition.out_of_state").asInt();
 
-					PreparedStatement prst = conn2.prepareStatement(
-							"INSERT INTO colleges(id, schoolName, zip, collegeType, studentSize, state, city, latitude, longitude, inStateCost, outOfStateCost) "
-									+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-					prst.setInt(1, collegeId);
-					prst.setString(2, collegeName);
+						PreparedStatement prst = conn2.prepareStatement(
+								"INSERT INTO colleges(id, schoolName, zip, collegeType, studentSize, state, city, latitude, longitude, inStateCost, outOfStateCost) "
+										+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						prst.setInt(1, collegeId);
+						prst.setString(2, collegeName);
 //				prst.setObject(3, type);
-					prst.setString(3, zip);
-					prst.setInt(4, type);
-					prst.setInt(5, size);
-					prst.setString(6, state);
-					prst.setString(7, city);
-					prst.setFloat(8, lat);
-					prst.setFloat(9, lon);
-					prst.setInt(10, inStateCost);
-					prst.setInt(11, outOfStateCost);
-					prst.execute();
+						prst.setString(3, zip);
+						prst.setInt(4, type);
+						prst.setInt(5, size);
+						prst.setString(6, state);
+						prst.setString(7, city);
+						prst.setFloat(8, lat);
+						prst.setFloat(9, lon);
+						prst.setInt(10, inStateCost);
+						prst.setInt(11, outOfStateCost);
+						prst.execute();
+//						System.out.println(count);
+//						count++;
+					}
 				}
 
 //			ResultSet rs = statement.executeQuery(
@@ -137,6 +140,7 @@ public class StoreAndReadDatabase {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		Connection locationConn = DriverManager.getConnection("jdbc:sqlite:data/db/points.sqlite");
 		Connection conn = DriverManager.getConnection("jdbc:sqlite:data/db/colleges.sqlite");
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery(

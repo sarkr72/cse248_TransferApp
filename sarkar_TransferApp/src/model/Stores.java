@@ -1,9 +1,6 @@
 package model;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.TreeMap;
 
-import javafx.scene.Cursor;
 
 public class Stores {
 

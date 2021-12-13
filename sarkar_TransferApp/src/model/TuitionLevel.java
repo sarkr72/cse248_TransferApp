@@ -60,5 +60,20 @@ public class TuitionLevel implements Uniteable, Serializable{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public int getCollegeId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public String getState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String getCity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

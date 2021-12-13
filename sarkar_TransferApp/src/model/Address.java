@@ -66,6 +66,11 @@ public class Address implements Serializable, Uniteable {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public int getCollegeId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 }

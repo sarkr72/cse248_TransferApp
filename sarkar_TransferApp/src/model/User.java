@@ -12,8 +12,17 @@ public class User implements Serializable{
 	private String zip;
 
 	public User(String userName, String passWord, String zip) {
+		super();
 		this.userName = userName;
 		this.passWord = passWord;
+		this.zip = zip;
+	}
+
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
 		this.zip = zip;
 	}
 

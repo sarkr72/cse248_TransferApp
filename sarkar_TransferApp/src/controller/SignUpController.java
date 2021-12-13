@@ -1,15 +1,11 @@
 package controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
-import java.util.TreeMap;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,15 +21,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Stores;
-import model.Uniteable;
 import model.User;
 
 public class SignUpController implements Initializable {
 
 	private String userName;
 	private String passWord;
-	private String zip = null;
-	private TreeMap<String, User> accounts = Stores.getAccounts();
+	private String zip = "57042-1799";
+//	private TreeMap<String, User> accounts = Stores.getAccounts();
 	@FXML
 	private Pane pane;
 	@FXML
@@ -80,6 +75,7 @@ public class SignUpController implements Initializable {
 			} else if (!passWord.matches(".*\\d.*")) {
 				passwordLabel.setText("Enter at least one digit");
 			} else {
+//				List<Uniteable> c = null;
 				User user = new User(userName, passWord, zip);
 				Stores.getAccounts().put(userName, user);
 				try {
@@ -88,9 +84,10 @@ public class SignUpController implements Initializable {
 					Connection conn = DriverManager.getConnection(url);
 //				Statement statement = conn.createStatement();
 					PreparedStatement prst = conn
-							.prepareStatement("INSERT INTO users(userName, password) " + "VALUES(?, ?)");
+							.prepareStatement("INSERT INTO users(userName, password, zip) " + "VALUES(?, ?, ?)");
 					prst.setString(1, userName);
 					prst.setString(2, passWord);
+					prst.setString(3, zip);
 					prst.execute();
 				} catch (Exception e) {
 					System.out.println(e);

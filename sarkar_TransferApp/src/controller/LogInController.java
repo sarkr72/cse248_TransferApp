@@ -1,14 +1,7 @@
 package controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -29,7 +22,6 @@ public class LogInController implements Initializable {
 
 	public static String userName;
 	private String passWord;
-	private String zip = null;
 
 	@FXML
 	private TextField userNameField;
@@ -101,8 +93,8 @@ public class LogInController implements Initializable {
 		Parent root = loader.load();
 		Scene scene = new Scene(root, 700, 700);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		window.setWidth(600);
-		window.setHeight(600);
+		window.setWidth(700);
+		window.setHeight(700);
 		window.setScene(scene);
 		window.show();
 	}

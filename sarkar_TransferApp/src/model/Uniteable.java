@@ -8,5 +8,8 @@ public interface Uniteable {
 	int getInStateCost();
 	int getOutOfStateCost();
 	 int getStudentSize();
+	int getCollegeId();
+	String getState();
+	String getCity();
 	
 }
